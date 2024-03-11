@@ -4,7 +4,7 @@ Implement a QuickTime Movie command line file parser that can print to the conso
 
 ## Installation
 
-1. Unzip the code and go to QuickTimeMaitreyee folder.
+1. Unzip the code and go to QuickTime-Parser-main folder.
 2. Create a bin folder: `mkdir bin`.
 3. Compile the code: `javac -d bin src/**/*.java`.
 4. Go to bin folder: `cd bin`.
