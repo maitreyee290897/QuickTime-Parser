@@ -62,6 +62,7 @@ public class AtomTreeParser extends Object {
 			int bytesRead = raf.read(atomSizeBuf, 0, atomSizeBuf.length);
 			if (bytesRead < atomSizeBuf.length) throw new IOException("couldn't read atom length");
 			BigInteger atomSizeBI = new BigInteger(atomSizeBuf);
+			//avoid integer overflow so used long
 			long atomSize = atomSizeBI.longValue();
 			
 			// this is kind of a hack to handle the udta problem

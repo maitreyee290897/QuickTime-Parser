@@ -14,32 +14,14 @@ import java.util.Properties;
 public class FactoryAtom extends Object {
 	
 	static FactoryAtom instance;
-	
-	static Class[] LEAF_ATOM_CONSTRUCTOR_ARGS = { long.class, String.class, RandomAccessFile.class };
-	
-	protected Properties props;
-	
-	/**
-	 * location of the props file as found with ClassLoader
-	 * getResource()... putting it in class' package structure
-	 * keeps things tidy (works really well inside a jar too)
-	 */
-	public static final String PROPS_RESOURCE_NAME = "com/maitreyee/quicktime/atomfactory.properties";
-	
+
 	/**
 	 * private constructor can only be called by the first
 	 * getInstance()
 	 */
 	private FactoryAtom() {
+
 		super();
-		// get props file
-		props = new Properties();
-		try {
-			InputStream propsIn = getClass().getClassLoader().getResourceAsStream(PROPS_RESOURCE_NAME);
-			if (propsIn != null) props.load(propsIn);
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
 	}
 	
 	/**
@@ -58,20 +40,7 @@ public class FactoryAtom extends Object {
 	 * the atom type to a class with the <code>atomfactory.properties</code> file.
 	 */
 	public LeafAtomParsed createAtomFor(long size, String type, RandomAccessFile raf) throws IOException {
-		String className = props.getProperty(type);
-		if (className == null) {
-			return new LeafAtomParsed(size, type, raf);
-		}
-		// now try to instantiate and populate (scary-ass reflection)
-		try {
-			Class atomClass = Class.forName(className);
-			Constructor constructor = atomClass.getDeclaredConstructor(LEAF_ATOM_CONSTRUCTOR_ARGS);
-			Object[] args = { new Long(size), type, raf };
-			return (LeafAtomParsed) constructor.newInstance(args);
-		} catch (Exception e) {
-			e.printStackTrace();
-			// if anything went wrong, return the simple leaf atom
-			return new LeafAtomParsed(size, type, raf);
-		}
+
+		return new LeafAtomParsed(size, type, raf);
 	}
 }
